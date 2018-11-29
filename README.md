@@ -1,6 +1,6 @@
 # RecyclerTools
 
-implementation 'com.github.joelnah:RecyclerTools:1.1'
+implementation 'com.github.joelnah:RecyclerTools:1.2'
 
 
 
