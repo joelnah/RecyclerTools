@@ -1,18 +1,17 @@
-package nah.prayer.library;
+package nah.prayer.recyclertoollibrary;
 
-import android.content.Context;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.util.Log;
 
 /**
  * Created by S on 2017-10-13.
  */
 
-public class WrapContentLinearLayoutManager extends LinearLayoutManager {
+public class WrapContentStaggeredGridLayoutManager extends StaggeredGridLayoutManager {
 
-    public WrapContentLinearLayoutManager(Context context, int sort , boolean bool) {
-        super(context, sort, bool);
+    public WrapContentStaggeredGridLayoutManager(int su, int sort) {
+        super(su, sort);
     }
     @Override
     public void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State state) {

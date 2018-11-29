@@ -1,4 +1,4 @@
-package nah.prayer.library;
+package nah.prayer.recyclertoollibrary;
 
 import android.content.Context;
 import android.support.v7.widget.GridLayoutManager;
@@ -13,6 +13,9 @@ public class WrapContentGridLayoutManager extends GridLayoutManager {
 
     public WrapContentGridLayoutManager(Context context, int su) {
         super(context, su);
+    }
+    public WrapContentGridLayoutManager(Context context, int su, int layout, boolean bool) {
+        super(context, su, layout, bool);
     }
     @Override
     public void onLayoutChildren(RecyclerView.Recycler recycler, RecyclerView.State state) {

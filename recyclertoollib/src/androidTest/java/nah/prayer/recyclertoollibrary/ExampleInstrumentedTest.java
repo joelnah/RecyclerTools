@@ -1,4 +1,4 @@
-package nah.prayer.library;
+package nah.prayer.recyclertoollibrary;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
