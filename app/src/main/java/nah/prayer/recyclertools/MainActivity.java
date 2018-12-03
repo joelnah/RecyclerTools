@@ -48,6 +48,17 @@ RecyclerAdapter adapter;
 
         recyclerView.setAdapter(adapter);
 
+/*        adapter.setOnLongClickStateListener(new MultiChoiceAdapter.LongClickListener() {
+            @Override
+            public void onLongClick(boolean bool) {
+                if(bool){
+                    Log.d("nah","true");
+                }else{
+                    Log.d("nah","false");
+                }
+            }
+        });*/
+
 
         //recyclerView.setHasFixedSize(true);
 
@@ -86,6 +97,16 @@ RecyclerAdapter adapter;
 
 
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(adapter.isLongClickMode()){
+            adapter.deselectAll();
+        }
+        else{
+            super.onBackPressed();
+        }
     }
 
     private void initData() {

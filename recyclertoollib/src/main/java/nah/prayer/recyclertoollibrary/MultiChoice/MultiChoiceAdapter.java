@@ -34,6 +34,15 @@ public abstract class MultiChoiceAdapter<VH extends RecyclerView.ViewHolder> ext
 
     //region Public methods
 
+    private boolean isLongClickMode = false;
+    private LongClickListener mLongClickListener;
+    public interface LongClickListener{
+        void onLongClick(boolean bool);
+    }
+    public void setOnLongClickStateListener(LongClickListener listener){
+        mLongClickListener = listener;
+    }
+
     /**
      * Override this method to customize the active item
      *
@@ -65,14 +74,28 @@ public abstract class MultiChoiceAdapter<VH extends RecyclerView.ViewHolder> ext
      * Deselect all the selected items in the adapter
      */
     public void deselectAll() {
+        isSingleCheck(false);
         performAll(Action.DESELECT);
+    }
+
+    private void isSingleCheck(boolean bool){
+        isLongClickMode = bool;
+        if(mLongClickListener!=null){
+            mLongClickListener.onLongClick(bool);
+        }
     }
 
     /**
      * Select all the view in the adapter
      */
     public void selectAll() {
+        isSingleCheck(true);
         performAll(Action.SELECT);
+    }
+
+
+    public boolean isLongClickMode() {
+        return isLongClickMode;
     }
 
     /**
@@ -233,6 +256,9 @@ public abstract class MultiChoiceAdapter<VH extends RecyclerView.ViewHolder> ext
 
         int selectedListSize = getSelectedItemListInternal().size();
 
+        if(selectedListSize<1){
+            isSingleCheck(false);
+        }
         updateMultiChoiceMode(selectedListSize);
 
         processNotifyDataSetChanged();
@@ -307,22 +333,17 @@ public abstract class MultiChoiceAdapter<VH extends RecyclerView.ViewHolder> ext
         View mCurrentView = holder.itemView;
 
         if ((mIsInMultiChoiceMode || mIsInSingleClickMode) && isSelectableInMultiChoiceMode(position)) {
-            mCurrentView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    processSingleClick(holder.getAdapterPosition());
-                }
+            mCurrentView.setOnClickListener(view -> {
+                processSingleClick(holder.getAdapterPosition());
             });
         } else if (defaultItemViewClickListener(holder, position) != null) {
             mCurrentView.setOnClickListener(defaultItemViewClickListener(holder, position));
         }
 
-        mCurrentView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                processLongClick(holder.getAdapterPosition());
-                return true;
-            }
+        mCurrentView.setOnLongClickListener(view -> {
+            processLongClick(holder.getAdapterPosition());
+            isSingleCheck(true);
+            return true;
         });
 
         processUpdate(mCurrentView, holder.getAdapterPosition());
